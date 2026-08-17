@@ -1,125 +1,91 @@
-# Incus deployment tools
+# incus-deploy
 
-This is a collection of Ansible playbooks, Terraform configurations and scripts to deploy and operate Incus clusters.
+[![Built with Ona](https://ona.com/build-with-ona.svg)](https://app.ona.com/#https://github.com/Interested-Deving-1896/incus-deploy) [![KDE Eco](https://img.shields.io/badge/KDE%20Eco-certified-brightgreen?logo=kde&logoColor=white&style=flat-square)](https://eco.kde.org/) [![Blue Angel](https://img.shields.io/badge/Blue%20Angel-DE--UZ%20215-0055a4?style=flat-square)](https://www.blauer-engel.de/en/certification/criteria) [![Energy](https://api.green-coding.io/v1/ci/badge/get?repo=Interested-Deving-1896%2Fincus-deploy&branch=main&workflow=eco-audit.yml)](https://metrics.green-coding.io/ci-index.html)
 
-## How to get the test setup run:
-### Install Incus and OpenTofu
-Install Incus stable or LTS on your system from the [zabbly/incus](https://github.com/zabbly/incus) release and initialize it on your local machine.
 
-Install [OpenTofu](https://opentofu.org/docs/intro/install/).
+<!-- AI:start:what-it-does -->
+_Description pending._
+<!-- AI:end:what-it-does -->
 
-### Create the test VMs with OpenTofu
-Go to terraform directory:
-```
-cd terraform/
-```
+## Architecture
 
-Init the terraform project:
-```
-tofu init
-```
+<!-- AI:start:architecture -->
+_Architecture documentation pending._
+<!-- AI:end:architecture -->
 
-Create 5 VMs and associated networks and storage volumes for testing an Incus cluster:
-If your Incus host needs different values from the default, you may need
-to copy `terraform.tfvars.example` to `terraform.tfvars` and update the
-variables.
+## Install
 
-```
-tofu apply -target=module.baremetal
+<!-- Add installation instructions here. This section is yours — the AI will not modify it. -->
+
+```bash
+git clone https://github.com/Interested-Deving-1896/incus-deploy.git
+cd incus-deploy
 ```
 
-### Run the Ansible Playbook
-Go to the ansible directory:
-```
-cd ../ansible/
-```
+## Usage
 
-NOTE: If you need the same version of Ansible this was tested with:
-```
-pyenv install 3.13.1
-pipenv --python "3.13.1" install
-pipenv shell
-ansible-galaxy install -r ansible_requirements.yml
-```
+<!-- Add usage examples here. This section is yours — the AI will not modify it. -->
 
-Copy the example inventory file:
-```
-cp hosts.yaml.example hosts.yaml
-```
-NOTE: If you are connecting to a remote Incus host you will need to change the `ansible_incus_remote` variable to match the name of the Incus remote (see: `incus remote list` for a list of remote names to use).
+## Configuration
 
-Run the Playbooks:
-```
-ansible-playbook deploy.yaml
-```
+<!-- Document configuration options here. This section is yours — the AI will not modify it. -->
 
-NOTE: When re-deploying the same cluster (e.g. following a `terraform destroy`),
-you need to make sure to also clear any local state from the
-`data` directory, failure to do so will cause Ceph/OVN to attempt
-connection to the previously deployed systems which will cause the
-deployment to get stuck.
+## CI
+
+<!-- AI:start:ci -->
+_CI documentation pending._
+<!-- AI:end:ci -->
+
+## Mirror chain
+
+<!-- AI:start:mirror-chain -->
+This repo is maintained in [`Interested-Deving-1896/incus-deploy`](https://github.com/Interested-Deving-1896/incus-deploy) and mirrored through:
 
 ```
-rm ansible/data/ceph/*
-rm ansible/data/lvmcluster/*
-rm ansible/data/ovn/*
+Interested-Deving-1896/incus-deploy  ──►  OpenOS-Project-OSP/incus-deploy  ──►  OpenOS-Project-Ecosystem-OOC/incus-deploy
 ```
 
-### Test a VM and Container on the new Incus cluster
+Changes flow downstream automatically via the hourly mirror chain in
+[`fork-sync-all`](https://github.com/Interested-Deving-1896/fork-sync-all).
+Direct commits to OSP or OOC are detected and opened as PRs back to `Interested-Deving-1896`.
+<!-- AI:end:mirror-chain -->
 
-```
-# Open a shell on one of the Incus cluster nodes
-incus exec server01 bash
+## Contributors
 
-# List all instances
-incus list
+<!-- AI:start:contributors -->
+_Contributors pending._
+<!-- AI:end:contributors -->
 
-# Launch a system container
-incus launch images:ubuntu/22.04 ubuntu-container
+## Origins
 
-# Launch a virtual machine
-incus launch images:ubuntu/22.04 ubuntu-vm --vm
+<!-- AI:start:origins -->
+_Original project — no upstream influences recorded._
+<!-- AI:end:origins -->
 
-# Launch an application container
-incus remote add oci-docker https://docker.io --protocol=oci
-incus launch oci-docker:hello-world --ephemeral --console
-incus launch oci-docker:nginx nginx-app-container
-```
+## Resources
 
-## Deploying against production systems
-### Requirements (when using Incus with both Ceph and OVN)
+<!-- AI:start:resources -->
+_No additional resource files found._
+<!-- AI:end:resources -->
 
- - At least 3 servers
- - One main network interface (or bond/VLAN), referred to as `enp5s0` in the examples
- - One additional network interface (or bond/VLAN) to use for ingress into OVN, referred to as `enp6s0` in the examples
- - Configured IPv4/IPv6 subnets on that additional network interface, in the examples, we're using:
-   - IPv4 subnet: `172.31.254.0/24`
-   - IPv4 gaterway: `172.31.254.1`
-   - IPv6 subnet: `fd00:1e4d:637d:1234::/64`
-   - IPv6 gateway: `fd00:1e4d:637d:1234::1`
-   - DNS server: `1.1.1.1`
- - A minimum of 3 disks (or partitions) on distinct servers across the cluster for consumption by Ceph, in the examples, we're using (on each server):
-   - `nvme-QEMU_NVMe_Ctrl_incus_disk1`
-   - `nvme-QEMU_NVMe_Ctrl_incus_disk2`
- - A minimum of 1 disk (or partition) on each server for local storage, that's `/dev/disk/by-id/nvme-QEMU_NVMe_Ctrl_incus_disk3` in the examples
+## Accessibility
 
-### Configuring Ansible
+<!-- AI:start:accessibility -->
+This repo uses automated accessibility auditing via `check-accessibility.yml`.
 
-With a deployment against physical servers, Terraform isn't currently used at all.
-Ansible will be used to deploy Ceph, OVN and Incus on the servers.
+Checks include: CODEOWNERS ownership coverage, README screen-reader compatibility,
+WCAG 2.1 AA HTML compliance, audio overview (espeak-ng), and Braille output (liblouis).
 
-You'll need to create a new `hosts.yaml` which you can base on the example one provided.
 
-You'll then need to do the following changes at minimum:
- - Generate a new `ceph_fsid` (use `uuidgen`)
- - Set a new `incus_name`
- - Set a new `ovn_name`
- - Update the number and name of servers to match the FQDN of your machines
- - Ensure that you have 3 servers with the `mon` `ceph_role` and 3 servers with the `central` `ovn_role`
- - Update the connection details to fit your deployment:
-   - Unset `ansible_connection`, `ansible_incus_remote`, `ansible_user` and `ansible_become` as those are specific to our test environment
-   - Set the appropriate connection information to access your servers (`ansible_connection`, `ansible_user`, SSH key, ...)
- - Update the list of ceph and local disks for each servers (look at `/dev/disk/by-id` for identifiers)
- - Tweak the `incus_init` variable to match your environment
 
-You'll find more details about the Ansible configuration options in [ansible/README.md](ansible/README.md).
+
+Run the [Check Accessibility](https://github.com/Interested-Deving-1896/incus-deploy/actions/workflows/check-accessibility.yml)
+workflow to generate the first report and accessibility artifacts.
+See [DOCS/accessibility.md](https://github.com/Interested-Deving-1896/incus-deploy/blob/main/DOCS/accessibility.md) for the full reference.
+<!-- AI:end:accessibility -->
+
+## License
+
+<!-- AI:start:license -->
+[Apache-2.0](https://github.com/Interested-Deving-1896/incus-deploy/blob/main/COPYING) © 2026 [Interested-Deving-1896](https://github.com/Interested-Deving-1896)
+<!-- AI:end:license -->
