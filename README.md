@@ -54,7 +54,18 @@ Direct commits to OSP or OOC are detected and opened as PRs back to `Interested-
 ## Contributors
 
 <!-- AI:start:contributors -->
-_Contributors pending._
+| Contributor | Commits |
+|---|---|
+| [@stgraber](https://github.com/stgraber) | 137 |
+| [@jarrodu](https://github.com/jarrodu) | 9 |
+| [@mkbrechtel](https://github.com/mkbrechtel) | 8 |
+| [@mttjohnson](https://github.com/mttjohnson) | 7 |
+| [@luissimas](https://github.com/luissimas) | 4 |
+| [@Interested-Deving-1896](https://github.com/Interested-Deving-1896) | 2 |
+| [@presztak](https://github.com/presztak) | 2 |
+| [@keestux](https://github.com/keestux) | 1 |
+| [@gibmat](https://github.com/gibmat) | 1 |
+| [@gigadjo](https://github.com/gigadjo) | 1 |
 <!-- AI:end:contributors -->
 
 ## Origins
@@ -82,7 +93,8 @@ WCAG 2.1 AA HTML compliance, audio overview (espeak-ng), and Braille output (lib
 
 Run the [Check Accessibility](https://github.com/Interested-Deving-1896/incus-deploy/actions/workflows/check-accessibility.yml)
 workflow to generate the first report and accessibility artifacts.
-See [DOCS/accessibility.md](https://github.com/Interested-Deving-1896/incus-deploy/blob/main/DOCS/accessibility.md) for the full reference.
+See the [W3C Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+for the underlying accessibility reference.
 <!-- AI:end:accessibility -->
 
 ## License
